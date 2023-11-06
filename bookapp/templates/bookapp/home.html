@@ -1,0 +1,55 @@
+{%extends "base.html"%}
+{%load static%}
+
+
+{%block content%}
+<div class="row">
+{%for book in books %}
+<div class=" col-md-3">
+    <div class = "card card-product-grid">
+        <a href = "{{book.get_url}}"  class = "img-wrap"><img class="rounded mx-auto d-block" width="300" height="300" src = "{{book.Picture.url}}"></a>
+        <figcaption class = "info-wrap">
+            <a href = "{{book.get_url}}">{{book.Title}}</a>
+            <div class = "price mt-1">{{book.Price}}</div>
+        </figcaption>
+
+    </div>
+
+</div>
+{%endfor%}
+</div>
+
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
