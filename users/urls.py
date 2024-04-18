@@ -7,8 +7,10 @@ from librarywedev import settings
 app_name = 'users'
 
 urlpatterns = [
-    path('register', views.UserRegistration, name = "signup"),
-    path('login', views.UserLogin, name = 'login'), 
-    path('logout', auth_views.LogoutView.as_view(next_page = settings.LOGOUT_REDIRECT_URL), name = 'logout'),  
+    path('register/', views.UserRegistration, name = "signup"),
+    path('login/', views.UserLogin, name = 'login'), 
+    path('view profile/', views.viewProfile, name = 'myProfile'), 
+    path('edit profile/', views.editProfile, name = 'editProfile'), 
+    path('logout/', auth_views.LogoutView.as_view(next_page = settings.LOGOUT_REDIRECT_URL), name = 'logout'),  
 ]
 

@@ -11,4 +11,5 @@ class UserAccount(UserAdmin):
     list_filter = ()
 # makes password field readonly
     fieldsets = () 
+    
 admin.site.register(CustomUser, UserAccount)

@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect
+from rest_Framework.response import Response
 from bookapp.models import Books
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
-
-from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
@@ -33,7 +31,7 @@ def add_cart(request, book_id):
         cart_item = CartItem.objects.create(book=book, cart=cart, quantity=1) #create a new cart item object with book =selected book object, 
         #equate a cart with cart id and  date added to it and assign quantity=1 to it 
         cart_item.save()
-    return redirect('cart:Cart')
+    return Response('cart item added')
 #pass all info to the main cart page
 
 def decrease_deactivate(request, book_id):#function to decrement product quantity in cart or delete product from cart 
@@ -47,13 +45,14 @@ def decrease_deactivate(request, book_id):#function to decrement product quantit
     else:
         cart_item.is_active = False
         cart_item.save()
-    return redirect('cart:Cart')
+    return Response("Item deactivated")
 
 def remove_cartitem(request, book_id):
     cart = Cart.objects.get(cart_id = _cart_id(request))
     book  = Books.objects.get(id =book_id)
     cart_item = CartItem.objects.get(book=book, cart=cart)
     cart_item.delete()
+    return Response("item removed successfully")
     
 
 

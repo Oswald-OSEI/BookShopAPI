@@ -1,16 +1,19 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, LoginModel, Profile
 
 class UserSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.SerializerMethodField()
-
     class Meta:
         model = CustomUser
-        fields = "__all__"
+        fields = ["first_name", "middle_name", "last_name", "email", "tel_number", "Gender", "password"]
         write_only_fields = ['password']
 
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = LoginModel
         fields = ['email', 'password']
         write_only_fields = ['password']
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['postal_address', 'house_address', 'City', 'region', 'country', 'profile_picture']

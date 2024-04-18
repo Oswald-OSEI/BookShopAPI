@@ -17,23 +17,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
               ( 'M', 'Male'),
               ('F', 'Female'),
               )
-    status = models.CharField(max_length=1, blank=True, choices=gender)
+    Gender = models.CharField(max_length=1, blank=True, choices=gender)
     
     def display_gender(self):
        return ','.join(gender.name for gender in self.gender[:2])
     display_gender.short_description = 'Gender'
- 
- #Address Details
-    postal_address = models.CharField(max_length=20, null=True)
-    house_address = models.CharField(max_length=20, null=True)
-    City = models.CharField(max_length=50, null=True)
-    region = models.CharField(max_length=50, null=True)
-    country = models.CharField(max_length=50, null=True)
-    
-#Biometrics
-    profile_picture = models.ImageField(upload_to='images/profilepictures/')
-       
-#permissions
+    #permissions
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -41,21 +30,29 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'tel_number']
-
-
-
-    
-    def get_full_name(self):
-       return self.username
-    
     def has_perm(self, perm, obj=None):
-       return self.is_admin
+           return self.is_admin
 
     def has_module_perms(self, add_label):
        return True
 
-    def __str__(self):
-       return self.username
+ 
+class Profile(models.Model):
+    #Address Details
+    Holder = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    postal_address = models.CharField(max_length=20, null=True)
+    house_address = models.CharField(max_length=20, null=True)
+    City = models.CharField(max_length=50, null=True)
+    region = models.CharField(max_length=50, null=True)
+    date_of_birth = models.DateField(null = True, blank = True)
+    country = models.CharField(max_length=50, null=True)
+    #Biometrics
+    profile_picture = models.ImageField(upload_to='images/profilepictures/') 
+    
+class LoginModel(models.Model):
+       email = models.EmailField()
+       password= models.CharField(max_length=150)
+   
 
        
        
