@@ -63,7 +63,8 @@ def editProfile(request):
             if profile.is_valid(raise_exception=True):
                 cd = request.FILES.get('profile_picture')
                 if cd is not None:
-                    profile.save(profile_picture=cd)
+                    profile.profile_picture = cd
+                    profile.save()
                 else:
                     profile.save()
                 return Response("update successful")

@@ -1,16 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
 from .models import Books, Genre, Authors
 from users.models import CustomUser
-from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
-from .forms import BookForm, AuthorsForm, GenreForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
-from rest_framework.decorators import api_view, parser_classes
+from rest_framework.decorators import api_view
 from .serializers import BookSerializer
 from rest_framework.response import Response
-from rest_framework.parsers import FileUploadParser
+
 
 # Create your views here.
 @api_view(['POST'])
@@ -20,10 +16,12 @@ def BookRegistration(request):
     #BookForm(initial=initial)
     if request.method == 'POST':
         serializer = BookSerializer(data=request.data) #(get the posted json data and deserialize it into a format the database can save)
-        
         if serializer.is_valid(raise_exception = True): #if it's not valid, return the error
+            cd = serializer.data
+            serializer.uploader = request.user
+            serializer.Picture = request.FILES.get('Picture')
             serializer.save() #save the instance into the database
-        return  Response(serializer.data) #(return json response of the saved data)
+        return Response(serializer.data) #(return json response of the saved data)
     #else:
      #   form = BookForm()
       #  context = {'form':form}

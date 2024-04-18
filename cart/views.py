@@ -1,4 +1,4 @@
-from rest_Framework.response import Response
+from rest_framework.response import Response
 from bookapp.models import Books
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
